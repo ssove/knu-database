@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page language="java" import="java.text.*, java.sql.*" %>
+<%@ page language="java" import="java.text.*, java.sql.*, conn.DBConnection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +9,6 @@
 </head>
 <body>
 <%
-	String portNum = "3306";
-	String url = "jdbc:mysql:" + "localhost:" + portNum;
-	String user = "phase3";
-	String pass = "3";
 	String id = request.getParameter("id");
 	String pw = request.getParameter("password");
 	String address = request.getParameter("address");
@@ -30,12 +26,12 @@
 	
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(url, user, pass);
+		conn = DBConnection.getConnection();
 		
 		// Null check for essential information.
 		if (id.equals("") || pw.equals("") || 
 				address.equals("") || phone.equals("")) {
-			pageContext.forward("signup_null.html");
+			response.sendRedirect("signup_null.html");
 		}
 		// End of null check.
 		
@@ -45,14 +41,14 @@
 		}
 		
 		// Duplication check for id.
-		query = "SELECT customer_id FROM CUSTOMER "
+		query = "SELECT COUNT(*) FROM CUSTOMER "
 			  + "WHERE customer_id = " + id;
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery();
 		
-		if (rs.next()) {
+		if (!rs.getString(1).equals("0")) {
 			System.out.println(id + " is already in database.");
-			pageContext.forward("signup_dup.html");
+			response.sendRedirect("signup_dup.html");
 		}
 		// End of duplication check.
 		
