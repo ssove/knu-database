@@ -9,11 +9,10 @@
 </head>
 <body>
 <%
-	String strSID = "orcl";
-	String portNum = "1521";
-	String url = "jdbc:oracle:thin:@" + "localhost:" + portNum + ":" + strSID;
-	String user = "knu";
-	String pass = "comp322";
+	String portNum = "3306";
+	String url = "jdbc:mysql:" + "localhost:" + portNum;
+	String user = "phase3";
+	String pass = "3";
 	String id = request.getParameter("id");
 	String pw = request.getParameter("password");
 	String address = request.getParameter("address");
@@ -29,21 +28,51 @@
 	String query;
 	ResultSetMetaData rsmd;
 	
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	conn = DriverManager.getConnection(url, user, pass);
-	
-	query = "INSERT INTO CUSTOMER "
-		  + "(" + name + ", " + address + ", "
-		  + phone + ", " + id + ", " + pw + ", "
-		  + age + ", " + sex + ", " + occupation + ", "
-		  + type + ")";
-	System.out.println("customer account has been created.");
-	System.out.println(id + ", " + pw + ", " + name);
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection(url, user, pass);
+		
+		// Null check for essential information.
+		if (id.equals("") || pw.equals("") || 
+				address.equals("") || phone.equals("")) {
+			pageContext.forward("signup_null.html");
+		}
+		// End of null check.
+		
+		// Handles when admin signs in.
+		if (id.equals("admin") && pw.equals("admin")) {
+			 response.sendRedirect("admin_main.html");
+		}
+		
+		// Duplication check for id.
+		query = "SELECT customer_id FROM CUSTOMER "
+			  + "WHERE customer_id = " + id;
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		
+		if (rs.next()) {
+			System.out.println(id + " is already in database.");
+			pageContext.forward("signup_dup.html");
+		}
+		// End of duplication check.
+		
+		query = "INSERT INTO CUSTOMER VALUES "
+			  + "(" + name + ", " + address + ", "
+			  + phone + ", " + id + ", " + pw + ", "
+			  + age + ", " + sex + ", " + occupation + ", "
+			  + type + ")";
+		pstmt = conn.prepareStatement(query);
+		pstmt.executeQuery();
+		System.out.println("I customer account has been created.");
+		System.out.println("---(" + id + ", " + pw + ", " + name + ")");
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		pageContext.forward("signup_complete.html");
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 %>
 </body>
-	<h3>회원가입이 완료되었습니다.</h3>
-	<h3>가입된 아이디로 로그인해주세요.</h3>
-	<input type="button" value="확인" onclick="location.href='signin.html'">
 </html>
