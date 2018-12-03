@@ -11,6 +11,7 @@
 <%
 	String id = request.getParameter("id");
 	String pw = request.getParameter("password");
+	String pwCheck = request.getParameter("pwcheck");
 	String address = request.getParameter("address");
 	String phone = request.getParameter("phone");
 	String sex = request.getParameter("sex");
@@ -37,7 +38,12 @@
 		
 		// Handles when admin signs in.
 		if (id.equals("admin") && pw.equals("admin")) {
-			 response.sendRedirect("admin_main.html");
+			response.sendRedirect("admin_main.html");
+		}
+		
+		// Handles when password check is failed.
+		if (!pw.equals(pwCheck)) {
+			response.sendRedirect("signup_pw_failed.html");
 		}
 		
 		// Duplication check for id.
