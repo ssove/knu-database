@@ -43,7 +43,7 @@
 		
 		// Handles when password check is failed.
 		if (!pw.equals(pwCheck)) {
-			response.sendRedirect("signup_pw_failed.html");
+			response.sendRedirect("signup_pw_failure.html");
 		}
 		
 		// Duplication check for id.
@@ -71,7 +71,7 @@
 		rs.close();
 		pstmt.close();
 		conn.close();
-		pageContext.forward("signup_complete.html");
+		pageContext.forward("signup_success.html");
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
