@@ -25,6 +25,15 @@
 			  + "AND password = " + pw;
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery();
+		pstmt.close();
+		rs.close();
+		conn.close();
+		
+		// Handles when admin signs in.
+		if (id.equals("admin") && pw.equals("admin")) {
+			response.sendRedirect("admin_main.html");
+		}
+		
 		if (rs.getString(1).equals("0")) {
 			response.sendRedirect("signin_fail.html");
 		} else {

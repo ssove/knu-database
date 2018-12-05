@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page language="java" import="java.text.*, java.sql.*, conn.DBConnection" %>
+<%@ page language="java" import="java.lang.*, java.text.*, java.sql.*, conn.DBConnection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,7 @@
 	String sex = request.getParameter("sex");
 	String age = request.getParameter("age");
 	String name = request.getParameter("name");
-	String occupation = request.getParameter("occupation");
+	String job = request.getParameter("job");
 	String type = request.getParameter("type");
 	Connection conn;
 	PreparedStatement pstmt;
@@ -36,14 +36,17 @@
 		}
 		// End of null check.
 		
-		// Handles when admin signs in.
-		if (id.equals("admin") && pw.equals("admin")) {
-			response.sendRedirect("admin_main.html");
-		}
-		
 		// Handles when password check is failed.
 		if (!pw.equals(pwCheck)) {
 			response.sendRedirect("signup_pw_failure.html");
+		}
+		
+		if (type.equals("Retail")) {
+			type = "1";
+		} else if (type.equals("Wholesale")) {
+			type = "2";
+		} else {
+			type = "3";
 		}
 		
 		// Duplication check for id.
@@ -61,7 +64,7 @@
 		query = "INSERT INTO CUSTOMER VALUES "
 			  + "(" + name + ", " + address + ", "
 			  + phone + ", " + id + ", " + pw + ", "
-			  + age + ", " + sex + ", " + occupation + ", "
+			  + age + ", " + sex + ", " + job + ", "
 			  + type + ")";
 		pstmt = conn.prepareStatement(query);
 		pstmt.executeQuery();
