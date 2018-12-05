@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page language="java" import="java.text.*, java.sql.*, conn.DBConnection" %>
+<%@ page language="java" import="java.lang.*, java.text.*, java.sql.*, conn.DBConnection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +19,7 @@
 	String name = request.getParameter("name");
 	String job = request.getParameter("job");
 	String type = request.getParameter("type");
+	String idx;
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
@@ -70,6 +71,21 @@
 		pstmt.executeQuery();
 		System.out.println("I customer account has been created.");
 		System.out.println("---(" + id + ", " + pw + ", " + name + ")");
+		
+		query = "SELECT COUNT(*) FROM SHOPPINGBAG";
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		idx = String.valueOf(rs.getInt(1));
+		
+		query = "INSERT INTO SHOPPINGBAG VALUES ("
+			  + "SID" + idx + ")";
+		pstmt = conn.prepareStatement(query);
+		pstmt.executeQuery();
+		
+		query = "INSERT INTO OWNS VALUES ("
+			  + id + ", SID" + idx;
+		pstmt = conn.prepareStatement(query);
+		pstmt.executeQuery();
 		
 		rs.close();
 		pstmt.close();

@@ -31,7 +31,7 @@
 		
 		// Handles when admin signs in.
 		if (id.equals("admin") && pw.equals("admin")) {
-			response.sendRedirect("admin_main.html");
+			response.sendRedirect("ManagerMenu.jsp");
 		}
 		
 		if (rs.getString(1).equals("0")) {
