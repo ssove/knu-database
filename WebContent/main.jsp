@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>Main</title>
 </head>
 <body>
 	
@@ -18,7 +18,7 @@
 	<br />
 	<input type="button" value="장바구니 확인 & 주문" onclick="location.href='ShowShoppingList.jsp'?userId=<%=userId%>">
 	<br /> <br /> <br />
-	<form action="category_search.jsp" method="POST">
+	<form action="category_search.jsp?userId=<%=userId%>" method="POST">
 		Category : <select name="category">
 				<option value="ca-1" selected>철물원예-철물-곡괭이</option>
 				<option value="ca-2">철물원예-철물-도어록</option>
@@ -40,6 +40,10 @@
 				<option value="ca-18">안전용품-안전장갑-내화학용장갑</option>
 		</select>
 		<input type="submit" value="확인"> <br />
+	</form>
+	<form action="search.jsp?userId=<%=userId%>" method="POST">
+		<input type="text" name="keyword">
+		<input type="submit" value="검색">
 	</form>
 </body>
 </html>

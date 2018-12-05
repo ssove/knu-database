@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page language="java" import="java.text.*, java.sql.*, conn.DBConnection" %>
+<%@ page language="java" import="java.text.*,java.sql.*, conn.DBConnection" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Category search</title>
+<title>Searching</title>
 </head>
 <body>
 <%
 	String userId = request.getParameter("userId");
-	String categoryCode = request.getParameter("category");
+	String itemName = request.getParameter("keyword");
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
@@ -27,9 +27,8 @@
 		out.println("<br /> <br />");
 		
 		query = "SELECT item_name, item_code "
-			  + "FROM ITEM, INCLUDES_IN "
-			  + "WHERE item_code = itemcode "
-			  + "AND Categorycode = " + categoryCode;
+			  + "FROM ITEM "
+			  + "WHERE item_name LIKE '%" + itemName + "'%";
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery();
 		rsmd = rs.getMetaData();
