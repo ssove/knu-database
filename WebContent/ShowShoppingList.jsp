@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!-- import JDBC package -->
-<%@ page language="java" import="java.text.*,java.sql.*" %>
+<%@ page language="java" import="java.text.*,java.sql.*, conn.DBConnection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,17 +13,12 @@
 	<h2>Lab</h2>
 	<h4>Your ShoppingBag</h4>
 <%
-	String serverIP="localhost";
-	String strSID="orcl";
-	String portNum="1521";
-	String url="jdbc:oracle:thin:@"+serverIP+":"+portNum+":"+strSID;
-	String user="home";
-	String pass="work";
+	
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	conn=DriverManager.getConnection(url,user,pass);
+	Class.forName("com.mysql.jdbc.Driver");
+	conn = DBConnection.getConnection();
 	
 	String userId=request.getParameter("userId");
 	String query="SELECT Item_name, Supplied, Unit From ITEM i, OWNS o, HAS h WHERE o.Customer_id='"+userId+"' AND o.Shoppingbag_id=h.Shoppingbag AND h.Item_code=i.Item_code";
