@@ -23,7 +23,7 @@
 	String quantity=request.getParameter("quantity");
 	String ItemCode=request.getParameter("idx");
 	int a=1;
-	String query="UPDATE ITEM SET supplied=supplied+"+quantity+" WHERE Item_code='"+ItemCode+"'";
+	String query="UPDATE ITEM SET Stock=Stock+"+quantity+" WHERE Item_code='"+ItemCode+"'";
 	pstmt=conn.prepareStatement(query);
 	pstmt.executeUpdate();
 	pstmt.close();

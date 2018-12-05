@@ -21,7 +21,7 @@
 	
 	
 	String userId="id0";
-	String query="SELECT Item_name, Item_code, Supplied FROM ITEM WHERE Supplied<=20";
+	String query="SELECT Item_name, Item_code, Stock FROM ITEM WHERE Supplied<=20";
 	pstmt=conn.prepareStatement(query);
 	rs=pstmt.executeQuery();
 

@@ -19,7 +19,7 @@
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DBConnection.getConnection();
 	
-	String query="SELECT Item_name, Supplied, Unit From ITEM i, OWNS o, HAS h WHERE o.Customer_id='"+userId+"' AND o.Shoppingbag_id=h.Shoppingbag AND h.Item_code=i.Item_code";
+	String query="SELECT Item_name, Stock, Unit From ITEM i, OWNS o, HAS h WHERE o.Customer_id='"+userId+"' AND o.Shoppingbag_id=h.Shoppingbag AND h.Item_code=i.Item_code";
 	pstmt=conn.prepareStatement(query);
 	rs=pstmt.executeQuery();
 	

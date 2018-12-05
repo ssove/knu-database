@@ -37,7 +37,7 @@
 		if (rs.getString(1).equals("0")) {
 			response.sendRedirect("signin_fail.html");
 		} else {
-			response.sendRedirect("main.html?userId="+id+"");
+			response.sendRedirect("main.jsp?userId="+id+"");
 		} 
 	} catch (Exception e) {
 		e.printStackTrace();
