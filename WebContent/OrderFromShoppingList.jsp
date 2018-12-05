@@ -32,6 +32,7 @@
 	}
 	int i=1;
 	while(rs.next()){
+		if(rs.getInt(2)<1) continue;	
 		query="INSERT INTO ORDERLIST VALUES('0','0','ORDERID"+ Integer.valueOf(index)+i +"')";
 		pstmt=conn.prepareStatement(query);
 		pstmt.executeQuery();
